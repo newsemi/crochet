@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fbf5e9"><title>코바늘 메이트 Pro</title>
+<style>
+:root{--bg:#fbf6ed;--paper:#fffefa;--ink:#29251f;--muted:#82796d;--line:#eadfce;--amber:#bd741c;--amber-dark:#805018;--amber-soft:#f8ead3;--green:#27836c;--green-soft:#e4f3ed;--red:#b94c4c;--shadow:0 5px 18px rgba(72,49,19,.07);--radius:20px}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100dvh;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",sans-serif;-webkit-tap-highlight-color:transparent}
+button,input,textarea,select{font:inherit}button{cursor:pointer;touch-action:manipulation}
+.app{width:min(100%,760px);margin:0 auto;padding:max(12px,env(safe-area-inset-top)) 14px calc(24px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 2px 14px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:var(--amber-soft);font-size:23px}
+h1{margin:0;font-size:19px;letter-spacing:-.5px;color:var(--amber-dark)}
+.sub{margin-top:3px;color:var(--muted);font-size:11px}
+.header-actions{display:flex;gap:7px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:9px 12px;background:var(--paper);color:var(--amber-dark);font-size:12px;font-weight:750;min-height:40px}
+.pill.active{background:var(--green);color:#fff;border-color:var(--green)}
+.tabs{display:flex;padding:4px;gap:4px;border-radius:15px;background:#f1e7d7;margin-bottom:13px}
+.tab{flex:1;border:0;border-radius:11px;padding:12px 4px;min-height:44px;background:transparent;color:#77644d;font-weight:750;font-size:13px}
+.tab.active{background:var(--paper);color:var(--amber-dark);box-shadow:0 2px 7px #80602b18}
+.panel{display:grid;gap:12px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:15px;box-shadow:var(--shadow)}
+.project-row{display:flex;align-items:center;gap:10px}
+.project-input{min-width:0;flex:1;border:0;border-bottom:1px solid transparent;outline:0;background:transparent;padding:5px 0;font-size:18px;font-weight:800;color:var(--ink)}
+.project-input:focus{border-color:var(--amber)}
+.eyebrow{color:var(--amber);font-size:10px;letter-spacing:1px;font-weight:850}
+.icon-btn{width:42px;height:42px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--muted);font-size:17px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.counter{text-align:center;padding:17px 12px 13px}
+.counter-label{color:var(--muted);font-size:12px;font-weight:800}
+.count{font-size:clamp(48px,14vw,66px);line-height:1.15;font-weight:900;margin:8px 0 12px;font-variant-numeric:tabular-nums}
+.count.row{color:var(--amber)}.count.stitch{color:var(--green)}
+.controls{display:flex;gap:8px}
+.btn{border:0;border-radius:13px;min-height:48px;padding:11px 13px;font-weight:800}
+.btn:active,.pill:active,.icon-btn:active,.tab:active{transform:scale(.98)}
+.btn.minus{flex:1;background:#f0eee9;color:#625c53}
+.btn.plus{flex:2;color:#fff;background:var(--amber)}
+.btn.green{background:var(--green);color:#fff}
+.btn.soft{background:var(--amber-soft);color:var(--amber-dark)}
+.btn.danger{background:#f9e7e5;color:var(--red)}
+.quick{width:100%;min-height:104px;color:#fff;border:0;border-radius:20px;background:linear-gradient(115deg,#c9852d,#a96313);box-shadow:0 7px 16px #a9631326;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.quick strong{font-size:18px}.quick span{font-size:12px;opacity:.85}.quick .hand{font-size:24px}
+.cur-pattern{background:var(--green-soft);border-color:#b9dfd0}
+.cur-pattern .txt{font-size:15px;line-height:1.55;margin-top:6px;font-weight:700;white-space:pre-wrap}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.setting label,.field-label{display:block;color:var(--muted);font-size:12px;font-weight:750;margin-bottom:7px}
+.setting input,.field,textarea{width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;padding:11px 10px;color:var(--ink);outline:0;min-height:44px}
+.setting input:focus,.field:focus,textarea:focus{border-color:var(--amber)}
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.section-title{font-size:14px;font-weight:850;margin:0}
+.hint{color:var(--muted);font-size:11px;line-height:1.5}
+.timer-big{font-size:32px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--amber-dark);letter-spacing:1px}
+.timer-controls{display:flex;gap:8px;margin-top:10px}.timer-controls .btn{flex:1}
+.toggle-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:3px 0}
+.switch{appearance:none;-webkit-appearance:none;width:48px;height:28px;border-radius:20px;background:#ddd5c9;position:relative;transition:.2s;flex:none}
+.switch:checked{background:var(--green)}
+.switch:before{content:"";position:absolute;width:22px;height:22px;left:3px;top:3px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px #0002}
+.switch:checked:before{transform:translateX(20px)}
+.hidden{display:none !important}
+.pattern-list{display:grid;gap:9px}
+.pattern-item{display:flex;flex-direction:column;gap:9px;padding:12px;background:#faf8f3;border:1px solid var(--line);border-radius:14px}
+.pattern-item.done{background:var(--green-soft);border-color:#b9dfd0}
+.pattern-item.current{box-shadow:0 0 0 2px var(--amber)}
+.pattern-head{display:flex;align-items:center;gap:7px}
+.pattern-item input[type=checkbox]{width:22px;height:22px;accent-color:var(--green);flex:none}
+.pattern-num{color:var(--amber-dark);font-size:14px;font-weight:900;white-space:nowrap;margin-right:auto}
+.pattern-text{display:block;min-width:0;width:100%;min-height:76px;resize:vertical;border:1px solid #e7dfd2;border-radius:10px;background:#fffefa;outline:0;padding:11px;font-size:14px;line-height:1.55;color:var(--ink);field-sizing:content}
+.pattern-text:focus{border-color:var(--amber)}
+.pattern-action{border:1px solid #e5dccf;background:#fff;color:#675d50;border-radius:9px;min-height:36px;min-width:38px;padding:6px 9px;font-size:12px;font-weight:800}
+.pattern-action:disabled{opacity:.35}
+.pattern-action.delete{color:#a43d3d;border-color:#efd0cd;background:#fff5f4}
+.pattern-actions{display:flex;gap:8px;flex-wrap:wrap}
+.pattern-actions .btn{min-height:42px;flex:1;font-size:12px}
+.progress-wrap{height:8px;background:#eee8dd;border-radius:20px;overflow:hidden;margin-top:10px}
+.progress{height:100%;width:0;background:var(--green);transition:width .2s}
+.reference{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}
+.reference div{background:#f8f5ef;border-radius:9px;padding:9px;display:flex;justify-content:space-between;font-size:12px}
+.dot-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:12px;max-height:60vh}
+#dotCanvas{display:block;image-rendering:pixelated}
+.legend{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.legend span{display:flex;align-items:center;gap:5px;font-size:12px;background:#f8f5ef;border-radius:8px;padding:4px 8px}
+.legend i{width:16px;height:16px;border-radius:4px;border:1px solid #0002;display:inline-block}
+.modal{position:fixed;inset:0;background:#0006;display:grid;place-items:center;z-index:20;padding:20px}
+.modal .box{background:var(--paper);border-radius:18px;padding:20px;max-width:340px;width:100%;box-shadow:var(--shadow)}
+.modal p{margin:0 0 16px;line-height:1.6;font-size:15px;font-weight:700;white-space:pre-wrap}
+.modal .controls .btn{flex:1}
+.undo{position:fixed;left:50%;bottom:calc(70px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#302b24;color:#fff;border-radius:999px;padding:8px 8px 8px 16px;display:flex;align-items:center;gap:10px;font-size:13px;z-index:11;white-space:nowrap}
+.undo button{border:0;border-radius:999px;background:var(--amber);color:#fff;padding:8px 14px;font-weight:800;min-height:36px}
+.footer{text-align:center;color:#9a9083;font-size:10px;padding:15px 0 3px}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#302b24;color:#fff;padding:11px 16px;border-radius:999px;font-size:12px;transition:.2s;z-index:10;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:600px){.app{padding-left:22px;padding-right:22px}.desktop-two{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}}
+@media(max-width:360px){.app{padding-left:10px;padding-right:10px}.pill{padding:8px 9px;font-size:11px}}
+</style></head>
+<body><div class="app">
+<header>
+ <div class="brand"><div class="logo">🧶</div><div><h1>코바늘 메이트 Pro</h1><div class="sub">뜨개질에 집중하세요. 기록은 제가 할게요.</div></div></div>
+ <div class="header-actions"><button class="pill" id="voiceBtn" type="button">🎙️ 음성 OFF</button><button class="pill" id="wakeBtn" type="button">☀️ 화면유지</button></div>
+</header>
+<nav class="tabs">
+ <button class="tab active" id="counterTabBtn" type="button">🔢 카운터</button>
+ <button class="tab" id="patternTabBtn" type="button">📝 도안</button>
+ <button class="tab" id="dotTabBtn" type="button">🎨 도트</button>
+</nav>
+<main>
+<section id="counterPanel" class="panel">
+ <div class="card"><div class="eyebrow">현재 작업 중</div>
+  <div class="project-row"><input id="projectTitle" class="project-input" aria-label="작업 이름"><button class="icon-btn" id="resetBtn" type="button" title="카운터 초기화">↻</button></div></div>
+ <div class="stats">
+  <article class="card counter"><div class="counter-label">단수 · ROW</div><div class="count row" id="rowCount">1</div>
+   <div class="controls"><button class="btn minus" id="rowMinus" type="button">−1</button><button class="btn plus" id="rowPlus" type="button">+1 단</button></div></article>
+  <article class="card counter"><div class="counter-label">콧수 · STITCH</div><div class="count stitch" id="stitchCount">0</div><div class="hint" id="stitchTarget" style="margin:-6px 0 8px;min-height:16px"></div>
+   <div class="controls"><button class="btn minus" id="stitchMinus" type="button">−1</button><button class="btn plus green" id="stitchPlus" type="button">+1 코</button></div></article>
+ </div>
+ <div class="card cur-pattern hidden" id="curPatternCard"><div class="eyebrow" id="curPatternTitle">현재 단 도안</div><div class="txt" id="curPatternText"></div></div>
+ <button class="quick" id="quickRow" type="button"><span class="hand">👆</span><strong>터치하여 1단 올리기</strong><span>크게 눌러 편하게 카운트하세요</span></button>
+ <div class="desktop-two">
+  <div class="card"><div class="row-between"><div><div class="eyebrow">WORK TIMER</div><div class="timer-big" id="timerDisplay">00:00:00</div></div><span style="font-size:25px">⏱️</span></div>
+   <div class="timer-controls"><button class="btn soft" id="timerStart" type="button">시작</button><button class="btn minus" id="timerReset" type="button">초기화</button></div>
+   <p class="hint" style="margin:9px 0 0">앱을 닫거나 새로고침해도 작업 시간이 이어집니다.</p></div>
+  <div class="card"><div class="eyebrow">알림 설정</div>
+   <div class="settings-grid" style="margin-top:10px">
+    <div class="setting"><label for="repeatInterval">몇 단마다 알림</label><input id="repeatInterval" type="number" min="0" max="999" inputmode="numeric"></div>
+    <div class="setting"><label for="repeatSound">음성 안내</label><select id="repeatSound" class="field"><option value="voice">음성</option><option value="silent">끄기</option></select></div>
+   </div>
+   <div class="toggle-line" style="margin-top:10px"><div><strong style="font-size:13px">도안 연동</strong><div class="hint">단을 올리면 코수가 0부터 시작하고 지난 단은 완료 체크됩니다. 목표 코수는 도안에서 읽습니다.</div></div><input class="switch" id="linkPattern" type="checkbox" aria-label="도안 연동"></div>
+   <div class="toggle-line" style="margin-top:10px"><div><strong style="font-size:13px">코수 채우면 다음 단으로</strong><div class="hint">코를 목표 코수만큼 세면 자동으로 다음 단으로 넘어갑니다. (도안 연동 필요)</div></div><input class="switch" id="autoAdvance" type="checkbox" aria-label="자동 다음 단"></div>
+   <div class="toggle-line" style="margin-top:10px"><div><strong style="font-size:13px">도안 내용 읽어주기</strong><div class="hint">단을 올릴 때마다 해당 단 도안을 음성으로 안내합니다.</div></div><input class="switch" id="readPattern" type="checkbox" aria-label="도안 읽어주기"></div>
+   <div class="toggle-line" style="margin-top:10px"><div><strong style="font-size:13px">단수 알림 사용</strong><div class="hint">설정한 단수에 도달하면 안내합니다.</div></div><input class="switch" id="alertEnabled" type="checkbox" aria-label="단수 알림 사용"></div></div>
+ </div>
+ <div class="card"><div class="row-between"><h2 class="section-title">작업 메모</h2><span class="hint">자동 저장</span></div>
+  <textarea id="workMemo" rows="2" placeholder="실 색상, 바늘 호수, 다음에 할 작업 등을 적어두세요." style="margin-top:9px;resize:vertical"></textarea></div>
+ <details class="card"><summary class="section-title" style="cursor:pointer">🪡 모사용 코바늘 호수 참고표</summary>
+  <div class="reference"><div><span>2호</span><strong>2.0 mm</strong></div><div><span>3호</span><strong>2.3 mm</strong></div><div><span>4호</span><strong>2.5 mm</strong></div><div><span>5호</span><strong>3.0 mm</strong></div><div><span>6호</span><strong>3.5 mm</strong></div><div><span>7호</span><strong>4.0 mm</strong></div><div><span>8호</span><strong>5.0 mm</strong></div><div><span>10호</span><strong>6.0 mm</strong></div></div>
+  <p class="hint">제조사·바늘 종류에 따라 표기 차이가 있을 수 있으니 실제 바늘의 mm 표기를 우선 확인하세요.</p></details>
+</section>
+
+<section id="patternPanel" class="panel hidden">
+ <div class="card">
+  <label class="field-label" for="patternName">도안 이름</label>
+  <input id="patternName" class="field" placeholder="예: 태극기 룸슈즈, 액막이 명태" maxlength="40">
+ </div>
+ <div class="card">
+  <h2 class="section-title">📋 도안 글 붙여넣기</h2>
+  <p class="hint">인터넷이나 책에서 본 도안 글을 붙여넣으면 단별로 나눠 드립니다. “1단: …”, “2~4단 …”, “Rnd 3: …”, “5. …” 같은 표기를 인식하고, 범위(2~4단)는 단별로 펼칩니다.</p>
+  <textarea id="pasteText" rows="5" placeholder="여기에 도안 글을 붙여넣으세요." style="margin-top:8px;resize:vertical"></textarea>
+  <div class="pattern-actions" style="margin-top:8px">
+   <button class="btn green" id="pasteReplace" type="button">도안으로 만들기 (교체)</button>
+   <button class="btn soft" id="pasteAppend" type="button">뒤에 추가</button>
+  </div>
+ </div>
+ <div class="card">
+  <div class="row-between"><div><h2 class="section-title" id="patternHeading">단별 레시피</h2><div class="hint" id="patternProgressText"></div></div></div>
+  <div class="progress-wrap"><div class="progress" id="patternProgress"></div></div>
+  <div class="pattern-list" id="patternList" style="margin-top:12px"></div>
+  <button class="btn soft" id="addPattern" type="button" style="width:100%;margin-top:10px">＋ 단 추가 (직전 단 내용 복사)</button>
+  <div class="pattern-actions" style="margin-top:10px">
+   <button class="btn minus" id="clearChecks" type="button">체크 해제</button>
+   <button class="btn minus" id="exportBtn" type="button">도안 내보내기</button>
+   <button class="btn minus" id="importBtn" type="button">도안 가져오기</button>
+  </div>
+  <input type="file" id="importFile" accept="application/json,.json" class="hidden">
+  <details style="margin-top:12px"><summary class="hint" style="cursor:pointer">예시 도안 불러오기</summary>
+   <button class="btn soft" id="loadTemplate" type="button" style="width:100%;margin-top:8px">🐟 예시: 액막이 명태</button></details>
+ </div>
+ <div class="card"><h2 class="section-title">작업 데이터 관리</h2>
+  <p class="hint">기록은 이 기기의 브라우저에 저장됩니다. 브라우저 데이터 삭제 시 사라질 수 있으니 백업 기능을 활용하세요.</p>
+  <div class="pattern-actions" style="margin-top:10px"><button class="btn soft" id="backupBtn" type="button">전체 백업 저장</button><button class="btn danger" id="clearAllBtn" type="button">전체 데이터 초기화</button></div>
+  <input type="file" id="backupFile" accept="application/json,.json" class="hidden">
+  <button class="btn minus" id="restoreBtn" type="button" style="width:100%;margin-top:8px">전체 백업 불러오기</button></div>
+</section>
+
+<section id="dotPanel" class="panel hidden">
+ <div class="card"><h2 class="section-title">이미지 → 도트 도안</h2>
+  <p class="hint">사진을 고르면 뜨개용 격자(1칸 = 1코)로 바꿔 드립니다. 단순한 그림일수록 결과가 깔끔합니다.</p>
+  <button class="btn soft" id="dotPick" type="button" style="width:100%;margin-top:8px">🖼️ 이미지 선택</button>
+  <input type="file" id="dotFile" accept="image/*" class="hidden">
+  <div class="settings-grid" style="margin-top:12px">
+   <div class="setting"><label for="dotW">가로 코수: <b id="dotWv">30</b></label><input id="dotW" type="range" min="8" max="80" value="30"></div>
+   <div class="setting"><label for="dotK">색 개수: <b id="dotKv">4</b></label><input id="dotK" type="range" min="2" max="12" value="4"></div>
+  </div>
+  <div class="dot-wrap hidden" id="dotWrap"><canvas id="dotCanvas"></canvas></div>
+  <div class="legend" id="dotLegend"></div>
+  <p class="hint" id="dotInfo"></p>
+  <div class="pattern-actions hidden" id="dotActions" style="margin-top:10px">
+   <button class="btn green" id="dotToPattern" type="button">도안 탭으로 보내기</button>
+   <button class="btn minus" id="dotSave" type="button">PNG 저장</button>
+  </div>
+ </div>
+</section>
+</main>
+<div class="footer">코바늘 메이트 Pro · 이 기기 안에서 자동 저장</div>
+</div>
+<div class="undo hidden" id="undoBar"><span id="undoText"></span><button type="button" id="undoBtn">되돌리기</button></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(()=>{"use strict";
+const DEF={row:1,stitch:0,repeatInterval:2,alertEnabled:true,repeatSound:"voice",title:"새 작업 🧶",memo:"",timerElapsed:0,timerStartedAt:null,alertedMax:0,linkPattern:true,autoAdvance:true,readPattern:false,
+patterns:[],patternName:""};
+const KEY="crochet_mate_pro_v3";
+const $=id=>document.getElementById(id);
+const clone=o=>structuredClone(o);
+let state=load(),rec=null,listening=false,wakeLock=null,toastT=null,lastVoice=0,dot=null,dotImg=null;
+
+function load(){try{const r=localStorage.getItem(KEY);if(!r)return clone(DEF);const s=JSON.parse(r);return{...clone(DEF),...s,patterns:Array.isArray(s.patterns)?s.patterns:clone(DEF.patterns)}}catch(e){return clone(DEF)}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){toast("저장 공간이 부족합니다. 백업을 확인해 주세요.")}}
+function ask(msg){return new Promise(res=>{
+ const o=document.createElement("div");o.className="modal";
+ o.innerHTML='<div class="box"><p></p><div class="controls"><button class="btn minus" type="button">취소</button><button class="btn plus" type="button">확인</button></div></div>';
+ o.querySelector("p").textContent=msg;const[b1,b2]=o.querySelectorAll("button");
+ const done=v=>{o.remove();res(v)};b1.onclick=()=>done(false);b2.onclick=()=>done(true);
+ o.addEventListener("click",e=>{if(e.target===o)done(false)});document.body.append(o);b2.focus();
+})}
+function toast(m){const el=$("toast");el.textContent=m;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2200)}
+const num=v=>Math.max(0,Number(v)||0);
+
+function refresh(){
+ $("rowCount").textContent=state.row;$("stitchCount").textContent=state.stitch;
+ $("projectTitle").value=state.title;$("repeatInterval").value=state.repeatInterval;
+ $("alertEnabled").checked=state.alertEnabled;$("linkPattern").checked=state.linkPattern;$("autoAdvance").checked=state.autoAdvance;$("readPattern").checked=state.readPattern;$("repeatSound").value=state.repeatSound;
+ $("workMemo").value=state.memo;$("patternName").value=state.patternName||"";timerShow();curPattern();
+}
+// 카운터 화면에 현재 단의 도안을 보여줍니다.
+function targetOf(i){const p=state.patterns[i];if(!p)return null;return(p.target>0)?+p.target:patternStitches(p.text)}
+function updateTarget(){const t=targetOf(state.row-1);$("stitchTarget").textContent=t!=null?`목표 ${t}코 · 남은 ${Math.max(0,t-state.stitch)}코`:"목표 코수 없음";}
+let undoInfo=null,undoT=null;
+function hideUndo(){undoInfo=null;clearTimeout(undoT);$("undoBar").classList.add("hidden")}
+function showUndo(u){undoInfo=u;$("undoText").textContent=`${u.row}단 완료`;$("undoBar").classList.remove("hidden");clearTimeout(undoT);undoT=setTimeout(hideUndo,6000)}
+function undoAdvance(){
+ const u=undoInfo;if(!u)return;
+ state.row=u.row;state.stitch=u.stitch;const p=state.patterns[u.row-1];if(p)p.checked=false;
+ hideUndo();save();refresh();if(!$("patternPanel").classList.contains("hidden"))drawPatterns();
+}
+function curPattern(){updateTarget();
+ const p=state.patterns[state.row-1],c=$("curPatternCard");
+ if(!p||!p.text.trim()){c.classList.add("hidden");return}
+ c.classList.remove("hidden");$("curPatternTitle").textContent=`${state.row}단 도안`;$("curPatternText").textContent=p.text;
+}
+// 도안 문장에서 그 단의 코수를 읽어냅니다. 확실한 경우만 값을 돌려주고, 아니면 null 입니다.
+function patternStitches(text){
+ if(!text)return null;let m=text.match(/총\s*(\d+)\s*코/);if(m)return +m[1];
+ if(/^\s*([A-L]\d+\s*)+$/.test(text))return[...text.matchAll(/[A-L](\d+)/g)].reduce((a,b)=>a+ +b[1],0);
+ if(/[(×x*]/i.test(text))return null;
+ const all=[...text.matchAll(/(\d+)\s*코/g)];return all.length===1?+all[0][1]:null;
+}
+function rowChange(d){
+ hideUndo();
+ const prev=state.row;state.row=Math.max(1,state.row+d);
+ $("rowCount").textContent=state.row;curPattern();
+ // 이미 안내한 단(alertedMax)까지는 −1 후 +1 해도 다시 안내하지 않습니다.
+ if(d>0&&state.row!==prev&&state.alertEnabled&&state.repeatInterval>0&&state.row%state.repeatInterval===0&&state.row>state.alertedMax){
+  const m=`${state.row}단입니다.`;state.repeatSound==="voice"?speak(m):toast(m);
+ }
+ state.alertedMax=Math.max(state.alertedMax||0,state.row);
+ 
+ if(state.row!==prev&&state.linkPattern){
+  const done=d>0?state.patterns[prev-1]:state.patterns[state.row-1];
+  if(done)done.checked=d>0;
+  const cur=state.patterns[state.row-1];
+  state.stitch=d>0?0:(targetOf(state.row-1)??0);$("stitchCount").textContent=state.stitch;curPattern();
+  if(d>0&&cur&&cur.text.trim()){
+   if(state.readPattern&&state.repeatSound==="voice")speak(`${state.row}단. ${cur.text.replace(/[×]/g,"곱하기")}`);
+   else if(!(state.alertEnabled&&state.repeatInterval>0&&state.row%state.repeatInterval===0))toast(`${state.row}단: ${cur.text.slice(0,24)}`);
+  }
+ }
+ save();if(!$("patternPanel").classList.contains("hidden"))drawPatterns();
+}
+function stitchChange(d){
+ hideUndo();
+ state.stitch=Math.max(0,state.stitch+d);$("stitchCount").textContent=state.stitch;
+ const t=targetOf(state.row-1);
+ // 목표 코수에 도달하면 다음 단으로 자동 이동하고, 되돌리기 버튼을 잠시 보여줍니다.
+ if(d>0&&state.autoAdvance&&state.linkPattern&&t!=null&&state.stitch>=t&&state.row<=state.patterns.length){
+  if(state.row===state.patterns.length){toast("🎉 마지막 단을 모두 떴습니다!");updateTarget();save();return}
+  const u={row:state.row,stitch:state.stitch};rowChange(1);showUndo(u);return;
+ }
+ updateTarget();save();
+}
+function speak(m){if(!("speechSynthesis" in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(m);u.lang="ko-KR";speechSynthesis.speak(u)}
+
+function elapsed(){return state.timerStartedAt?state.timerElapsed+Math.max(0,Math.floor((Date.now()-state.timerStartedAt)/1000)):state.timerElapsed}
+function hms(t){const p=n=>String(n).padStart(2,"0");return `${p(Math.floor(t/3600))}:${p(Math.floor(t%3600/60))}:${p(t%60)}`}
+function timerShow(){$("timerDisplay").textContent=hms(elapsed());$("timerStart").textContent=state.timerStartedAt?"일시정지":"시작";$("timerStart").classList.toggle("green",!!state.timerStartedAt)}
+function timerToggle(){if(state.timerStartedAt){state.timerElapsed=elapsed();state.timerStartedAt=null}else state.timerStartedAt=Date.now();save();timerShow()}
+async function timerReset(){if(!await ask("작업 시간을 00:00:00으로 초기화할까요?"))return;state.timerElapsed=0;state.timerStartedAt=null;save();timerShow()}
+
+function tab(t){
+ for(const n of ["counter","pattern","dot"]){
+  $(n+"Panel").classList.toggle("hidden",n!==t);$(n+"TabBtn").classList.toggle("active",n===t);
+ }
+ if(t==="pattern")drawPatterns();
+}
+
+// ---------- 도안 ----------
+function renumber(){state.patterns.forEach((p,i)=>p.rowNum=i+1)}
+function heading(){$("patternHeading").textContent=state.patternName?`단별 레시피 · ${state.patternName}`:"단별 레시피"}
+function progress(){heading();
+ const done=state.patterns.filter(p=>p.checked).length,n=state.patterns.length;
+ $("patternProgressText").textContent=`완료 ${done} / ${n}단 · 현재 ${state.row}단`;
+ $("patternProgress").style.width=n?`${done/n*100}%`:"0%";
+}
+function markCurrent(){
+ [...$("patternList").children].forEach((c,i)=>c.classList&&c.classList.toggle("current",i===state.row-1));progress();
+}
+function drawPatterns(){
+ const list=$("patternList");list.replaceChildren();
+ if(!state.patterns.length){const e=document.createElement("div");e.className="hint";e.style.cssText="text-align:center;padding:25px 8px";e.textContent="등록된 단이 없습니다. 아래 ‘단 추가’ 버튼을 눌러 주세요.";list.append(e)}
+ state.patterns.forEach((item,i)=>list.append(makeItem(item,i)));
+ markCurrent();
+}
+function makeItem(item,i){
+ const card=document.createElement("div");card.className="pattern-item"+(item.checked?" done":"");
+ const head=document.createElement("div");head.className="pattern-head";
+ const chk=document.createElement("input");chk.type="checkbox";chk.checked=!!item.checked;chk.setAttribute("aria-label",`${item.rowNum}단 완료`);
+ // 목록을 다시 그리지 않고 상태만 바꿔서 스크롤 위치가 튀지 않게 합니다.
+ chk.addEventListener("change",()=>{item.checked=chk.checked;card.classList.toggle("done",chk.checked);save();progress()});
+ const n=document.createElement("span");n.className="pattern-num";n.textContent=`${item.rowNum}단`;
+ const mk=(t,title,fn,cls,dis)=>{const b=document.createElement("button");b.type="button";b.className="pattern-action"+(cls?" "+cls:"");b.textContent=t;b.title=title;b.disabled=!!dis;b.addEventListener("click",fn);return b};
+ head.append(chk,n,
+  mk("▲","위로",()=>move(i,-1),"",i===0),
+  mk("▼","아래로",()=>move(i,1),"",i===state.patterns.length-1),
+  mk("복제","아래에 복제",()=>dup(i)),
+  mk("삭제","단 삭제",()=>del(i),"delete"));
+ const t=document.createElement("textarea");t.className="pattern-text";t.rows=2;t.value=item.text||"";
+ t.placeholder=`${item.rowNum}단의 뜨는 방법을 입력하세요.`;t.setAttribute("aria-label",`${item.rowNum}단 도안 내용`);
+ t.addEventListener("input",()=>{item.text=t.value;save();auto();curPattern()});
+ const tr=document.createElement("div");tr.className="pattern-head";
+ const lb=document.createElement("label");lb.className="hint";lb.textContent="목표 코수";
+ const ti=document.createElement("input");ti.type="number";ti.min=0;ti.max=999;ti.inputMode="numeric";ti.className="field";ti.style.cssText="width:100px;min-height:38px;padding:6px 8px";
+ function auto(){const a=patternStitches(item.text);ti.placeholder=a!=null?`자동 ${a}`:"직접 입력"}auto();
+ ti.value=item.target>0?item.target:"";
+ ti.addEventListener("input",()=>{const v=parseInt(ti.value,10);item.target=v>0?v:null;save();updateTarget()});
+ tr.append(lb,ti);card.append(head,t,tr);return card;
+}
+function del(i){
+ if(i<0||i>=state.patterns.length)return;
+ const n=state.patterns[i].rowNum;state.patterns.splice(i,1);renumber();save();drawPatterns();curPattern();toast(`${n}단을 삭제했습니다.`);
+}
+function move(i,d){
+ const t=i+d;if(t<0||t>=state.patterns.length)return;
+ [state.patterns[i],state.patterns[t]]=[state.patterns[t],state.patterns[i]];renumber();save();drawPatterns();curPattern();
+}
+function dup(i){
+ const s=state.patterns[i];state.patterns.splice(i+1,0,{rowNum:0,text:s.text,checked:false,target:s.target>0?s.target:null});renumber();save();drawPatterns();curPattern();
+}
+// 새 단은 직전 단 내용을 복사해서 추가하고, 화면은 움직이지 않습니다.
+function addPattern(){
+ const last=state.patterns[state.patterns.length-1];
+ state.patterns.push({rowNum:state.patterns.length+1,text:last?last.text:"",checked:false,target:last&&last.target>0?last.target:null});
+ save();
+ const list=$("patternList");
+ if(state.patterns.length===1)drawPatterns();
+ else{list.append(makeItem(state.patterns[state.patterns.length-1],state.patterns.length-1));
+  const prevDown=list.children[list.children.length-2]?.querySelectorAll(".pattern-action")[1];if(prevDown)prevDown.disabled=false;
+  markCurrent()}
+ curPattern();
+}
+async function template(){
+ if(!await ask("명태 도안 예시를 불러올까요? 현재 도안 목록은 교체됩니다."))return;
+ const t=["매직링 짧은뜨기 6코 시작","(짧은뜨기 2코, 코늘림 1코) × 2회 [총 8코]","평단 짧은뜨기 8코","(짧은뜨기 1코, 코늘림 1코) × 4회 [총 12코]","평단 짧은뜨기 12코","(짧은뜨기 2코, 코늘림 1코) × 4회 [총 16코]","몸통 평단 3~5단 떠서 길이 유지","꼬리: (2코, 줄임 1코) 반복 후 납작하게 오므리기"];
+ state.patterns=t.map((x,i)=>({rowNum:i+1,text:x,checked:false}));state.patternName="액막이 명태";$("patternName").value=state.patternName;state.row=1;state.stitch=0;state.alertedMax=0;save();refresh();drawPatterns();curPattern();toast("명태 도안을 불러왔습니다.");
+}
+function download(data,name){
+ const b=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");
+ a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);
+}
+function readFile(file,mode){
+ if(!file)return;const r=new FileReader();
+ r.onload=()=>{try{
+  const d=JSON.parse(r.result);
+  if(mode==="pattern"){
+   if(!Array.isArray(d))throw 0;
+   state.patterns=d.map((p,i)=>({rowNum:i+1,text:String(p&&p.text!=null?p.text:""),checked:!!(p&&p.checked),target:(p&&p.target>0)?+p.target:null}));
+  }else{
+   if(!d||typeof d!=="object"||!("row" in d))throw 0;
+   state={...clone(DEF),...d};
+   if(!Array.isArray(state.patterns))state.patterns=[];
+   state.patterns=state.patterns.map((p,i)=>({rowNum:i+1,text:String(p&&p.text!=null?p.text:""),checked:!!(p&&p.checked),target:(p&&p.target>0)?+p.target:null}));
+   if(typeof state.patternName!=="string")state.patternName="";refresh();
+  }
+  save();drawPatterns();curPattern();toast("파일을 불러왔습니다.");
+ }catch(e){toast("파일을 읽지 못했습니다. 올바른 파일인지 확인해 주세요.")}};
+ r.readAsText(file);
+}
+
+// ---------- 도안 글 붙여넣기 ----------
+const RE_ROW=[
+ /^(?:rnds?|rounds?|rows?|r)\s*\.?\s*(\d+)(?:\s*[~\-–]\s*(\d+))?\s*[:：.)]?\s*(.*)$/i,
+ /^(\d+)(?:\s*[~\-–]\s*(\d+))?\s*(?:번째\s*)?(?:단|줄)\s*[:：.)\-–]?\s*(.*)$/,
+ /^(\d+)(?:\s*[~\-–]\s*(\d+))?\s*(?:[:：)]|\.(?!\d))\s*(.*)$/
+];
+function parsePattern(raw){
+ const lines=raw.replace(/\r/g,"").split("\n").map(l=>l.replace(/^[\s•·●■▪\-*]+/,"").trim()).filter(Boolean);
+ const rows=[];let title="";
+ for(const l of lines){
+  let m=null;for(const re of RE_ROW){m=l.match(re);if(m)break}
+  if(m){
+   const a=+m[1],b=m[2]?+m[2]:a,t=m[3].trim(),cnt=(b>a&&b-a<=200)?b-a+1:1;
+   for(let i=0;i<cnt;i++)rows.push(t);
+  }else if(rows.length)rows[rows.length-1]+=(rows[rows.length-1]?" ":"")+l;
+  else if(!title)title=l;
+  else title+=" "+l;
+ }
+ if(!rows.length){return{rows:lines,title:"",fallback:true}}
+ return{rows,title:title.length<=40?title:"",fallback:false};
+}
+async function pasteApply(append){
+ const raw=$("pasteText").value;
+ if(!raw.trim()){toast("도안 글을 먼저 붙여넣어 주세요.");return}
+ const r=parsePattern(raw);
+ if(!r.rows.length){toast("단을 찾지 못했습니다.");return}
+ if(!append&&state.patterns.length&&!await ask(`현재 도안 ${state.patterns.length}단을 지우고 ${r.rows.length}단으로 교체할까요?`))return;
+ const add=r.rows.map(t=>({rowNum:0,text:t,checked:false}));
+ if(append)state.patterns=state.patterns.concat(add);
+ else{state.patterns=add;state.row=1;state.alertedMax=0;if(r.title&&!state.patternName){state.patternName=r.title;$("patternName").value=r.title}}
+ renumber();
+ if(!append)state.stitch=0;
+ save();refresh();drawPatterns();$("pasteText").value="";
+ toast(r.fallback?`단 표시가 없어 줄마다 1단으로 만들었습니다 (${r.rows.length}단)`:`${r.rows.length}단으로 변환했습니다.`);
+}
+
+// ---------- 이미지 → 도트 ----------
+function buildDot(){
+ if(!dotImg)return;
+ const w=+$("dotW").value,k=+$("dotK").value;
+ const h=Math.max(1,Math.round(dotImg.naturalHeight/dotImg.naturalWidth*w));
+ const c=document.createElement("canvas");c.width=w;c.height=h;
+ const x=c.getContext("2d",{willReadFrequently:true});
+ x.fillStyle="#fff";x.fillRect(0,0,w,h);x.imageSmoothingQuality="high";x.drawImage(dotImg,0,0,w,h);
+ const d=x.getImageData(0,0,w,h).data,n=w*h,px=[];
+ for(let i=0;i<n;i++)px.push([d[i*4],d[i*4+1],d[i*4+2]]);
+ // k-means 로 대표 색을 뽑습니다. 초기값은 밝기 순서대로 고르게 선택합니다.
+ const sorted=px.map((p,i)=>[p[0]*.3+p[1]*.59+p[2]*.11,i]).sort((a,b)=>a[0]-b[0]);
+ let cen=[];for(let j=0;j<k;j++)cen.push(px[sorted[Math.floor((j+.5)*n/k)][1]].slice());
+ const idx=new Array(n).fill(0);
+ const dist=(a,b)=>(a[0]-b[0])**2+(a[1]-b[1])**2+(a[2]-b[2])**2;
+ for(let it=0;it<8;it++){
+  for(let i=0;i<n;i++){let b=0,bd=1e9;for(let j=0;j<k;j++){const dd=dist(px[i],cen[j]);if(dd<bd){bd=dd;b=j}}idx[i]=b}
+  const sum=cen.map(()=>[0,0,0,0]);
+  for(let i=0;i<n;i++){const s=sum[idx[i]];s[0]+=px[i][0];s[1]+=px[i][1];s[2]+=px[i][2];s[3]++}
+  cen=cen.map((c0,j)=>sum[j][3]?[sum[j][0]/sum[j][3],sum[j][1]/sum[j][3],sum[j][2]/sum[j][3]]:c0);
+ }
+ const used=[...new Set(idx)].sort((a,b)=>a-b),map={};used.forEach((u,i)=>map[u]=i);
+ const pal=used.map(u=>"#"+cen[u].map(v=>Math.round(v).toString(16).padStart(2,"0")).join(""));
+ dot={w,h,pal,grid:idx.map(v=>map[v])};
+ renderDot();
+}
+const LET="ABCDEFGHIJKL";
+function renderDot(){
+ const{w,h,pal,grid}=dot,cs=Math.max(10,Math.min(22,Math.floor(640/w))),cv=$("dotCanvas");
+ cv.width=w*cs;cv.height=h*cs;const x=cv.getContext("2d");
+ for(let y=0;y<h;y++)for(let i=0;i<w;i++){x.fillStyle=pal[grid[y*w+i]];x.fillRect(i*cs,y*cs,cs,cs)}
+ x.strokeStyle="rgba(0,0,0,.18)";x.lineWidth=1;x.beginPath();
+ for(let i=0;i<=w;i++){x.moveTo(i*cs+.5,0);x.lineTo(i*cs+.5,h*cs)}
+ for(let y=0;y<=h;y++){x.moveTo(0,y*cs+.5);x.lineTo(w*cs,y*cs+.5)}
+ x.stroke();
+ $("dotWrap").classList.remove("hidden");$("dotActions").classList.remove("hidden");
+ $("dotLegend").innerHTML=pal.map((c,i)=>`<span><i style="background:${c}"></i>${LET[i]} ${c}</span>`).join("");
+ $("dotInfo").textContent=`${w}코 × ${h}단 · ${pal.length}색`;
+}
+async function dotToPattern(){
+ if(!dot)return;
+ if(!await ask("현재 도안 목록을 이 도트 도안으로 교체할까요? (맨 아래 줄부터 1단)"))return;
+ const{w,h,pal,grid}=dot,rows=[];
+ for(let y=h-1;y>=0;y--){
+  const r=grid.slice(y*w,y*w+w),parts=[];let s=0;
+  for(let i=1;i<=w;i++)if(i===w||r[i]!==r[s]){parts.push(`${LET[r[s]]}${i-s}`);s=i}
+  rows.push(parts.join(" "));
+ }
+ state.patterns=rows.map((t,i)=>({rowNum:i+1,text:t,checked:false}));
+ state.memo=(state.memo?state.memo+"\n":"")+"색상표: "+pal.map((c,i)=>`${LET[i]}=${c}`).join(", ")+` (${w}코 × ${h}단)`;
+ state.row=1;state.stitch=0;state.alertedMax=0;state.patternName="도트 도안";
+ save();refresh();tab("pattern");toast("도안으로 보냈습니다.");
+}
+
+// ---------- 이벤트 ----------
+$("counterTabBtn").onclick=()=>tab("counter");$("patternTabBtn").onclick=()=>tab("pattern");$("dotTabBtn").onclick=()=>tab("dot");
+$("rowMinus").onclick=()=>rowChange(-1);$("rowPlus").onclick=()=>rowChange(1);$("quickRow").onclick=()=>rowChange(1);
+$("stitchMinus").onclick=()=>stitchChange(-1);$("stitchPlus").onclick=()=>stitchChange(1);
+$("projectTitle").oninput=e=>{state.title=e.target.value;save()};
+$("workMemo").oninput=e=>{state.memo=e.target.value;save()};
+$("repeatInterval").onchange=e=>{state.repeatInterval=Math.min(999,num(e.target.value));e.target.value=state.repeatInterval;save()};
+$("autoAdvance").onchange=e=>{state.autoAdvance=e.target.checked;save()};
+$("linkPattern").onchange=e=>{state.linkPattern=e.target.checked;save()};
+$("readPattern").onchange=e=>{state.readPattern=e.target.checked;save()};
+$("alertEnabled").onchange=e=>{state.alertEnabled=e.target.checked;save()};
+$("repeatSound").onchange=e=>{state.repeatSound=e.target.value;save()};
+$("timerStart").onclick=timerToggle;$("timerReset").onclick=timerReset;
+$("resetBtn").onclick=async()=>{if(!await ask("단수와 콧수를 처음 값(1단 / 0코)으로 초기화할까요?"))return;state.row=1;state.stitch=0;state.alertedMax=0;refresh();save()};
+$("addPattern").onclick=addPattern;$("loadTemplate").onclick=template;
+$("patternName").oninput=e=>{state.patternName=e.target.value;save();heading()};
+$("pasteReplace").onclick=()=>pasteApply(false);$("pasteAppend").onclick=()=>pasteApply(true);
+$("clearChecks").onclick=()=>{state.patterns.forEach(p=>p.checked=false);save();drawPatterns()};
+$("exportBtn").onclick=()=>download(state.patterns,"crochet-pattern.json");
+$("importBtn").onclick=()=>$("importFile").click();
+$("importFile").onchange=e=>{readFile(e.target.files[0],"pattern");e.target.value=""};
+$("backupBtn").onclick=()=>download(state,"crochet-mate-backup.json");
+$("restoreBtn").onclick=()=>$("backupFile").click();
+$("backupFile").onchange=e=>{readFile(e.target.files[0],"backup");e.target.value=""};
+$("clearAllBtn").onclick=async()=>{if(!await ask("카운터, 도안, 메모, 타이머를 모두 초기화할까요? 먼저 백업하는 것을 권장합니다."))return;state=clone(DEF);save();refresh();drawPatterns();toast("전체 데이터를 초기화했습니다.")};
+
+$("dotPick").onclick=()=>$("dotFile").click();
+$("dotFile").onchange=e=>{
+ const f=e.target.files[0];e.target.value="";if(!f)return;
+ const u=URL.createObjectURL(f),im=new Image();
+ im.onload=()=>{dotImg=im;try{buildDot();toast("도트 변환 완료")}catch(err){toast("변환 중 오류: "+err.message)}URL.revokeObjectURL(u)};
+ im.onerror=()=>{toast("이미지를 읽지 못했습니다. HEIC는 JPG/PNG로 바꿔 주세요.");URL.revokeObjectURL(u)};
+ im.src=u;
+};
+let dotT;const dotLater=()=>{$("dotWv").textContent=$("dotW").value;$("dotKv").textContent=$("dotK").value;clearTimeout(dotT);dotT=setTimeout(buildDot,150)};
+$("dotW").oninput=dotLater;$("dotK").oninput=dotLater;
+$("undoBtn").onclick=undoAdvance;
+$("dotToPattern").onclick=dotToPattern;
+$("dotSave").onclick=()=>$("dotCanvas").toBlob(b=>{const u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="crochet-dot.png";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)});
+
+// 음성 명령: 긴 표현부터 검사. 흔한 단어("다음","카운트")는 오작동이 잦아 뺐고, 연속 인식은 1초 간격으로 제한합니다.
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(SR){
+ rec=new SR();rec.lang="ko-KR";rec.continuous=true;rec.interimResults=false;
+ rec.onresult=ev=>{
+  const t=ev.results[ev.results.length-1][0].transcript.replace(/\s/g,""),now=Date.now();
+  if(now-lastVoice<1000)return;
+  if(t.includes("코올려")){stitchChange(1);toast("콧수 +1")}
+  else if(t.includes("코내려")){stitchChange(-1);toast("콧수 -1")}
+  else if(t.includes("다음단")||t.includes("단올려")||t.includes("올려"))rowChange(1);
+  else if(t.includes("이전단")||t.includes("단내려")||t.includes("내려"))rowChange(-1);
+  else if(t.includes("리셋")){ask("음성 명령: 단수와 콧수를 초기화할까요?").then(ok=>{if(ok){state.row=1;state.stitch=0;state.alertedMax=0;refresh();save()}})}
+  else return;
+  lastVoice=now;
+ };
+ rec.onerror=()=>toast("음성 인식에 문제가 있습니다. 마이크 권한을 확인해 주세요.");
+ rec.onend=()=>{if(listening){try{rec.start()}catch(e){}}};
+ $("voiceBtn").onclick=()=>{
+  listening=!listening;
+  if(listening){try{rec.start();$("voiceBtn").textContent="🎙️ 음성 ON";$("voiceBtn").classList.add("active");toast("음성 명령을 듣고 있습니다.")}catch(e){listening=false;toast("음성 인식을 시작하지 못했습니다.")}}
+  else{rec.stop();$("voiceBtn").textContent="🎙️ 음성 OFF";$("voiceBtn").classList.remove("active")}
+ };
+}else{$("voiceBtn").disabled=true;$("voiceBtn").textContent="🎙️ 미지원"}
+
+// 화면 유지: 복귀 시 재요청하면서 버튼 상태와 release 리스너도 함께 갱신합니다.
+async function lock(){
+ wakeLock=await navigator.wakeLock.request("screen");$("wakeBtn").classList.add("active");
+ wakeLock.addEventListener("release",()=>{wakeLock=null;$("wakeBtn").classList.remove("active")});
+}
+let wantLock=false;
+$("wakeBtn").onclick=async()=>{
+ if(!("wakeLock" in navigator)){toast("화면 유지 기능은 현재 브라우저에서 지원하지 않습니다.");return}
+ try{
+  if(wakeLock){wantLock=false;await wakeLock.release();toast("화면 유지 해제")}
+  else{wantLock=true;await lock();toast("화면이 켜진 상태로 유지됩니다.")}
+ }catch(e){wantLock=false;toast("화면 유지 권한을 사용할 수 없습니다.")}
+};
+document.addEventListener("visibilitychange",async()=>{
+ if(document.visibilityState==="visible"&&wantLock&&!wakeLock){try{await lock()}catch(e){}}
+});
+
+setInterval(timerShow,500);refresh();
+})();
+</script></body></html>
